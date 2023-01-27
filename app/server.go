@@ -24,11 +24,11 @@ func main() {
 		conn, err := l.Accept()
 		if err != nil {
 			fmt.Println("Error accepting connection: ", err.Error())
+			conn.Close()
 			os.Exit(1)
 			return
 		}
 
 		conn.Write([]byte("+PONG\r\n"))
-		conn.Close()
 	}
 }
