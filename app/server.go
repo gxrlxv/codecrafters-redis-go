@@ -21,15 +21,23 @@ func main() {
 		os.Exit(1)
 	}
 	defer l.Close()
+
+	conn, err := l.Accept()
+	if err != nil {
+		fmt.Println("Error accepting connection: ", err.Error())
+		os.Exit(1)
+		return
+	}
+	defer conn.Close()
+
 	for {
-		conn, err := l.Accept()
+		buf := make([]byte, 1024)
+		_, err := conn.Read(buf)
 		if err != nil {
-			fmt.Println("Error accepting connection: ", err.Error())
-			conn.Close()
+			fmt.Println("Error reading from client: ", err.Error())
 			os.Exit(1)
-			return
 		}
 
-		go conn.Write([]byte("+PONG\r\n"))
+		conn.Write([]byte("+PONG\r\n"))
 	}
 }
