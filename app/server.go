@@ -27,5 +27,5 @@ func main() {
 	}
 	defer conn.Close()
 
-	conn.Write([]byte("PONG"))
+	conn.Write([]byte("+PONG\\r\\n"))
 }
